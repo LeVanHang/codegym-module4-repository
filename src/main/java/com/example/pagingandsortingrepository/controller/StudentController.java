@@ -5,6 +5,9 @@ import com.example.pagingandsortingrepository.model.Student;
 import com.example.pagingandsortingrepository.service.IClassRoomService;
 import com.example.pagingandsortingrepository.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+
 @Controller
 public class StudentController {
     @Autowired
@@ -26,40 +30,38 @@ public class StudentController {
     @Autowired
     IClassRoomService classRoomService;
 
+
     @GetMapping("/students")
-    public ModelAndView showAll() {
+    public ModelAndView showAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "name") String option) {
         ModelAndView modelAndView = new ModelAndView("show");
-        modelAndView.addObject("students",studentService.findAll());
+        modelAndView.addObject("students",studentService.findAll(PageRequest.of(page,0,Sort.by(option))));
+        modelAndView.addObject("option",option);
         return modelAndView;
     }
 
     @GetMapping("/create")
     public ModelAndView showCreate(){
         ModelAndView modelAndView = new ModelAndView("create");
-        modelAndView.addObject("student",new Student());
-        modelAndView.addObject("classRoom", classRoomService.findAll());
         return modelAndView;
     }
 
     @ModelAttribute("student")
     public Student student() {
-
         return new Student();
     }
 
     @ModelAttribute("classRooms")
     public List<ClassRoom> classRooms() {
-
         return classRoomService.findAll();
     }
 
     @PostMapping("/create")
-    public String create (@ModelAttribute(value = "student") Student student, @RequestParam MultipartFile upImg, Long idClassRoom, MultipartFile upFile) {
+    public String create (@ModelAttribute(value = "student") Student student, @RequestParam MultipartFile upImg, Long idClassRoom) {
         ClassRoom classRoom = new ClassRoom();
         classRoom.setId(idClassRoom);
         student.setClassRoom(classRoom);
 
-        String nameFile = upFile.getOriginalFilename();
+        String nameFile = upImg.getOriginalFilename();
         try {
             FileCopyUtils.copy(upImg.getBytes(), new File(new File("C:\\CodeGym\\module4\\PagingAndSortingRepository\\src\\main\\webapp\\WEB-INF\\img") + nameFile));
             student.setImg("/img/" + nameFile);

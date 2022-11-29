@@ -10,7 +10,6 @@ public class Student {
     private String name;
     private int age;
     private String img;
-    private int ClassRoom;
 
     @ManyToOne
     private ClassRoom classRoom;
@@ -18,29 +17,34 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, int age, String img, int classRoom, com.example.pagingandsortingrepository.model.ClassRoom classRoom1) {
+    public Student(Long id, String name, int age, String img, ClassRoom classRoom) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.img = img;
-        ClassRoom = classRoom;
-        this.classRoom = classRoom1;
+        this.classRoom = classRoom;
     }
 
-    public Student(String name, int age, String img, int classRoom, com.example.pagingandsortingrepository.model.ClassRoom classRoom1) {
+    public Student(String name, int age, String img, ClassRoom classRoom) {
         this.name = name;
         this.age = age;
         this.img = img;
-        ClassRoom = classRoom;
-        this.classRoom = classRoom1;
+        this.classRoom = classRoom;
     }
 
-    public Student(Long id, String name, int age, String img, int classRoom) {
+    public Student(Long id, String name, int age, String img) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.img = img;
-        ClassRoom = classRoom;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -67,23 +71,11 @@ public class Student {
         this.img = img;
     }
 
-    public int getClassRoom() {
-        return ClassRoom;
+    public ClassRoom getClassRoom() {
+        return classRoom;
     }
 
-    public void setClassRoom(com.example.pagingandsortingrepository.model.ClassRoom classRoom) {
+    public void setClassRoom(ClassRoom classRoom) {
         this.classRoom = classRoom;
-    }
-
-    public void setClassRoom(int classRoom) {
-        ClassRoom = classRoom;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

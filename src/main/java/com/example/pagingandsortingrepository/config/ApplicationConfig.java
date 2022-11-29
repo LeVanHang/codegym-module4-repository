@@ -136,10 +136,18 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
         return transactionManager;
     }
 
+//    @Bean
+//    public ThymeleafViewResolver viewResolver() {
+//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+//        viewResolver.setTemplateEngine(templateEngine());
+//        viewResolver.setCharacterEncoding("UTF-8");
+//        return viewResolver;
+//    }
+
 //   hết Cấu hình để kết nối CSDL
 
     @Bean
-    public IStudentService iStudentService(){
+    public IStudentService StudentService(){
         return new StudentService();
     }
 
